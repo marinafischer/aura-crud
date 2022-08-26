@@ -1,4 +1,10 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PersonModule } from './modules/person.module';
 import { ProductModule } from './modules/poduct.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,4 +22,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
   ],
 })
-export class AppModule { }
+// implementação para uso do middleware
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('person');
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: 'product', method: RequestMethod.GET });
+  }
+}
