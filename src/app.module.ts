@@ -6,14 +6,16 @@ import {
 } from '@nestjs/common';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PersonModule } from './modules/person.module';
-import { ProductModule } from './modules/poduct.module';
+import { CompanyModule } from './modules/company.module';
+import { CollectionModule } from './modules/collection.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   // TypeOrm for Root busca arquivo na raiz da aplicação chamado ormconfig.json
   imports: [
-    ProductModule,
     PersonModule,
+    CompanyModule,
+    CollectionModule,
     TypeOrmModule.forRoot({
       database: './db.sql',
       type: 'sqlite',
@@ -28,6 +30,6 @@ export class AppModule implements NestModule {
     consumer.apply(LoggerMiddleware).forRoutes('person');
     consumer
       .apply(LoggerMiddleware)
-      .forRoutes({ path: 'product', method: RequestMethod.GET });
+      .forRoutes({ path: 'person', method: RequestMethod.GET });
   }
 }

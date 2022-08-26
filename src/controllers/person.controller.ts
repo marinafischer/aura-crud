@@ -18,7 +18,7 @@ import { PersonSchema } from 'src/schemas/person.schema';
 export class PersonController {
   constructor(
     @InjectRepository(PersonModel) private model: Repository<PersonModel>,
-  ) { }
+  ) {}
 
   @Post()
   // Como parâmetro do Body, poderia colocar o ValidationPipe, mas como será usado em todas as rotas, usar na main
