@@ -28,9 +28,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // implementação para uso do middleware
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('perks', 'company');
+    consumer.apply(LoggerMiddleware).forRoutes('user');
     consumer
       .apply(LoggerMiddleware)
-      .forRoutes({ path: 'person', method: RequestMethod.GET });
+      .forRoutes({ path: 'user', method: RequestMethod.GET });
   }
 }
