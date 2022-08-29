@@ -11,25 +11,23 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CategoryModel } from 'src/models/category.model';
-import { CategorySchema } from 'src/schemas/category.schema';
+import { PerkModel } from 'src/models/perk.model';
+import { PerkSchema } from 'src/schemas/perk.schema';
 
-@Controller('/category')
-export class CategoryController {
+@Controller('/perk')
+export class PerkController {
   constructor(
-    @InjectRepository(CategoryModel) private model: Repository<CategoryModel>,
-  ) {}
+    @InjectRepository(PerkModel) private model: Repository<PerkModel>,
+  ) { }
 
   @Post()
-  public async create(
-    @Body() body: CategorySchema,
-  ): Promise<{ data: CategorySchema }> {
+  public async create(@Body() body: PerkSchema): Promise<{ data: PerkModel }> {
     const data = await this.model.save(body);
     return { data };
   }
 
   @Get()
-  public async get(): Promise<{ data: CategoryModel[] }> {
+  public async get(): Promise<{ data: PerkModel[] }> {
     const data = await this.model.find();
     return { data };
   }
@@ -37,8 +35,11 @@ export class CategoryController {
   @Get(':id')
   public async getOne(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<{ data: CategoryModel }> {
-    const data = await this.model.findOne({ where: { id } });
+  ): Promise<{ data: PerkModel }> {
+    const data = await this.model.findOne({
+      where: { id },
+      relations: { collectionId: true, companyId: true, categoryId: true },
+    });
     if (!data) throw new NotFoundException('O id informado não existe');
     return { data };
   }
@@ -46,7 +47,7 @@ export class CategoryController {
   @Put(':id')
   public async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: CategorySchema,
+    @Body() body: PerkSchema,
   ): Promise<{ data: any }> {
     await this.model.update(id, body);
     return { data: { id, ...body } };

@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CollectionModel as Collection } from './collection.model';
+import { PerkModel as Perk } from './perk.model';
+
 @Entity()
 export class CompanyModel {
   @PrimaryGeneratedColumn()
@@ -44,4 +46,7 @@ export class CompanyModel {
 
   @OneToMany(() => Collection, (collection) => collection.companyId)
   collections: Collection[];
+
+  @OneToMany(() => Perk, (perk) => perk.companyId)
+  perks: Perk[];
 }

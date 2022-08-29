@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Body,
   ConflictException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CollectionModel } from 'src/models/collection.model';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,7 +20,7 @@ export class CollectionController {
   constructor(
     @InjectRepository(CollectionModel)
     private model: Repository<CollectionModel>,
-  ) {}
+  ) { }
 
   @Post()
   public async create(@Body() body: CollectionSchema): Promise<{ data: any }> {
@@ -32,20 +33,29 @@ export class CollectionController {
   }
 
   @Get()
-  public async get(): Promise<{ data: CollectionModel[] }> {
+  public async get(): Promise<CollectionModel[]> {
     const data = await this.model.find({
       relations: {
         companyId: true,
+        perks: true,
       },
     });
-    return { data };
+    return data;
   }
 
   @Get(':id')
   public async getOne(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<{ data: any }> {
-    return { data: `rota get ${id}` };
+    const data = await this.model.findOne({
+      where: { id },
+      relations: {
+        companyId: true,
+        perks: true,
+      },
+    });
+    if (!data) throw new NotFoundException('O id informado não existe');
+    return { data };
   }
 
   @Put(':id')

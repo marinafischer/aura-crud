@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { PerkModel as Perk } from './perk.model';
 
 @Entity()
 export class CategoryModel {
@@ -7,4 +8,7 @@ export class CategoryModel {
 
   @Column({ length: 255 })
   name: string;
+
+  @OneToMany(() => Perk, (perk) => perk.categoryId)
+  perks: Perk[];
 }

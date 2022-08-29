@@ -3,10 +3,13 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CompanyModel as Company } from './company.model';
+import { PerkModel as Perk } from './perk.model';
+
 @Entity()
 export class CollectionModel {
   @PrimaryGeneratedColumn()
@@ -35,4 +38,7 @@ export class CollectionModel {
 
   @ManyToOne(() => Company, (company) => company.collections)
   companyId: Company['id'];
+
+  @OneToMany(() => Perk, (perk) => perk.categoryId)
+  perks: Perk[];
 }

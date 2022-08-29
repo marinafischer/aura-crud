@@ -7,4 +7,4 @@ import { CompanyModel } from 'src/models/company.model';
   imports: [TypeOrmModule.forFeature([CompanyModel])],
   controllers: [CompanyController],
 })
-export class CompanyModule { }
+export class CompanyModule {}
