@@ -9,7 +9,7 @@ export class CollectionService {
   constructor(
     @InjectRepository(CollectionModel)
     private model: Repository<CollectionModel>,
-  ) {}
+  ) { }
 
   public async create(
     body: CollectionSchema,
@@ -19,12 +19,23 @@ export class CollectionService {
   }
 
   public async get(): Promise<{ data: CollectionModel[] }> {
-    const data = await this.model.find();
+    const data = await this.model.find({
+      relations: {
+        companyId: true,
+        perks: true,
+      },
+    });
     return { data };
   }
 
   public async getOne(id: number): Promise<{ data: CollectionModel }> {
-    const data = await this.model.findOne({ where: { id } });
+    const data = await this.model.findOne({
+      where: { id },
+      relations: {
+        companyId: true,
+        perks: true,
+      },
+    });
     if (!data) throw new NotFoundException('O id informado não existe');
     return { data };
   }
