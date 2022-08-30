@@ -9,7 +9,7 @@ export class CollectionService {
   constructor(
     @InjectRepository(CollectionModel)
     private model: Repository<CollectionModel>,
-  ) { }
+  ) {}
 
   public async create(
     body: CollectionSchema,
@@ -23,6 +23,7 @@ export class CollectionService {
       relations: {
         companyId: true,
         perks: true,
+        partners: true,
       },
     });
     return { data };

@@ -5,6 +5,8 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { CollectionModel as Collection } from './collection.model';
 import { PerkModel as Perk } from './perk.model';
@@ -51,4 +53,7 @@ export class CompanyModel {
 
   @OneToMany(() => Perk, (perk) => perk.companyId, { cascade: true })
   perks: Perk[];
+
+  @ManyToMany(() => Collection, (Collection) => Collection.partners)
+  partners: Collection[];
 }
