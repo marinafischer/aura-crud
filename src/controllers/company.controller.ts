@@ -6,51 +6,36 @@ import {
   Post,
   Put,
   ParseIntPipe,
-  NotFoundException,
   Body,
-  ConflictException,
 } from '@nestjs/common';
 import { CompanyModel } from 'src/models/company.model';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CompanySchema } from 'src/schemas/company.schema';
+import { CompanyService } from 'src/services/company.service';
 
 @Controller('/company')
 export class CompanyController {
-  constructor(
-    @InjectRepository(CompanyModel) private model: Repository<CompanyModel>,
-  ) {}
+  constructor(private service: CompanyService) {}
 
   @Post()
   public async create(
     @Body() body: CompanySchema,
-  ): Promise<{ data: CompanyModel }> {
-    try {
-      const data = await this.model.save(body);
-      return { data };
-    } catch (error) {
-      throw new ConflictException('cnpj e endereço devem ser unicos');
-    }
+  ): Promise<{ data: CompanySchema }> {
+    const data = await this.service.create(body);
+    return data;
   }
 
   @Get()
   public async get(): Promise<{ data: CompanyModel[] }> {
-    const data = await this.model.find();
-    return { data };
+    const data = await this.service.get();
+    return data;
   }
 
   @Get(':id')
   public async getOne(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<{ data: CompanyModel }> {
-    const data = await this.model.findOne({
-      where: { id },
-      relations: {
-        collections: true,
-      },
-    });
-    if (!data) throw new NotFoundException('O id informado não existe');
-    return { data };
+    const data = await this.service.getOne(id);
+    return data;
   }
 
   @Put(':id')
@@ -58,17 +43,15 @@ export class CompanyController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: CompanySchema,
   ): Promise<{ data: any }> {
-    await this.model.update(id, body);
-    return { data: { id, ...body } };
+    const data = await this.service.update(id, body);
+    return data;
   }
 
   @Delete(':id')
   public async delete(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<{ data: string }> {
-    const data = await this.model.findOne({ where: { id } });
-    if (!data) throw new NotFoundException('O id informado não existe');
-    await this.model.delete(id);
-    return { data: `O id ${id} foi deletado com sucesso` };
+    const data = await this.service.delete(id);
+    return data;
   }
 }
