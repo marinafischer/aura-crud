@@ -39,6 +39,6 @@ export class CollectionModel {
   @ManyToOne(() => Company, (company) => company.collections)
   companyId: Company['id'];
 
-  @OneToMany(() => Perk, (perk) => perk.collectionId)
+  @OneToMany(() => Perk, (perk) => perk.collectionId, { cascade: true })
   perks: Perk[];
 }

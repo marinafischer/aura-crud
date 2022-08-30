@@ -44,9 +44,11 @@ export class CompanyModel {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Collection, (collection) => collection.companyId)
+  @OneToMany(() => Collection, (collection) => collection.companyId, {
+    cascade: true,
+  })
   collections: Collection[];
 
-  @OneToMany(() => Perk, (perk) => perk.companyId)
+  @OneToMany(() => Perk, (perk) => perk.companyId, { cascade: true })
   perks: Perk[];
 }
