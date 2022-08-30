@@ -6,13 +6,11 @@ import {
 } from '@nestjs/common';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PersonModule } from './modules/person.module';
-import { ProductModule } from './modules/poduct.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   // TypeOrm for Root busca arquivo na raiz da aplicação chamado ormconfig.json
   imports: [
-    ProductModule,
     PersonModule,
     TypeOrmModule.forRoot({
       database: './db.sql',
