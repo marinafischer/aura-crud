@@ -18,7 +18,7 @@ import { PerkSchema } from 'src/schemas/perk.schema';
 export class PerkController {
   constructor(
     @InjectRepository(PerkModel) private model: Repository<PerkModel>,
-  ) { }
+  ) {}
 
   @Post()
   public async create(@Body() body: PerkSchema): Promise<{ data: PerkModel }> {

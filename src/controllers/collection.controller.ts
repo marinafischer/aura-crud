@@ -20,7 +20,7 @@ export class CollectionController {
   constructor(
     @InjectRepository(CollectionModel)
     private model: Repository<CollectionModel>,
-  ) { }
+  ) {}
 
   @Post()
   public async create(@Body() body: CollectionSchema): Promise<{ data: any }> {
@@ -59,12 +59,21 @@ export class CollectionController {
   }
 
   @Put(':id')
-  public async update(@Param('id', ParseIntPipe) id: number): Promise<any> {
-    return { data: `rota put ${id}` };
+  public async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: CollectionSchema,
+  ): Promise<{ data: any }> {
+    await this.model.update(id, body);
+    return { data: { id, ...body } };
   }
 
   @Delete(':id')
-  public async delete(@Param('id', ParseIntPipe) id: number): Promise<any> {
-    return { data: `rota delete ${id}` };
+  public async delete(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<{ data: string }> {
+    const data = await this.model.findOne({ where: { id } });
+    if (!data) throw new NotFoundException('O id informado não existe');
+    await this.model.delete(id);
+    return { data: `O id ${id} foi deletado com sucesso` };
   }
 }
