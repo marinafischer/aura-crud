@@ -6,41 +6,36 @@ import {
   Get,
   Post,
   Put,
-  NotFoundException,
   ParseIntPipe,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CategoryModel } from 'src/models/category.model';
 import { CategorySchema } from 'src/schemas/category.schema';
+import { CategoryService } from 'src/services/category.service';
 
 @Controller('/category')
 export class CategoryController {
-  constructor(
-    @InjectRepository(CategoryModel) private model: Repository<CategoryModel>,
-  ) {}
+  constructor(private service: CategoryService) {}
 
   @Post()
   public async create(
     @Body() body: CategorySchema,
   ): Promise<{ data: CategorySchema }> {
-    const data = await this.model.save(body);
-    return { data };
+    const data = await this.service.create(body);
+    return data;
   }
 
   @Get()
   public async get(): Promise<{ data: CategoryModel[] }> {
-    const data = await this.model.find();
-    return { data };
+    const data = await this.service.get();
+    return data;
   }
 
   @Get(':id')
   public async getOne(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<{ data: CategoryModel }> {
-    const data = await this.model.findOne({ where: { id } });
-    if (!data) throw new NotFoundException('O id informado não existe');
-    return { data };
+    const data = await this.service.getOne(id);
+    return data;
   }
 
   @Put(':id')
@@ -48,17 +43,15 @@ export class CategoryController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: CategorySchema,
   ): Promise<{ data: any }> {
-    await this.model.update(id, body);
-    return { data: { id, ...body } };
+    const data = await this.service.update(id, body);
+    return data;
   }
 
   @Delete(':id')
   public async delete(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<{ data: string }> {
-    const data = await this.model.findOne({ where: { id } });
-    if (!data) throw new NotFoundException('O id informado não existe');
-    await this.model.delete(id);
-    return { data: `O id ${id} foi deletado com sucesso` };
+    const data = await this.service.delete(id);
+    return data;
   }
 }
