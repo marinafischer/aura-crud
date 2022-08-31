@@ -22,5 +22,5 @@ export class CollectionSchema {
   imgCape: string;
 
   @IsNumber()
-  companyId: number;
+  company: number;
 }

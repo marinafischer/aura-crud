@@ -9,6 +9,6 @@ export class CategoryModel {
   @Column({ length: 255 })
   name: string;
 
-  @OneToMany(() => Perk, (perk) => perk.categoryId, { cascade: true })
+  @OneToMany(() => Perk, (perk) => perk.category, { cascade: true })
   perks: Perk[];
 }

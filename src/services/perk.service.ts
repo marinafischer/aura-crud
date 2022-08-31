@@ -23,7 +23,7 @@ export class PerkService {
   public async getOne(id: number): Promise<{ data: PerkModel }> {
     const data = await this.model.findOne({
       where: { id },
-      relations: { collectionId: true, companyId: true, categoryId: true },
+      relations: { collection: true, company: true, category: true },
     });
     if (!data) throw new NotFoundException('O id informado não existe');
     return { data };

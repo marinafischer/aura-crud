@@ -16,7 +16,7 @@ export class CompanyService {
   }
 
   public async get(): Promise<{ data: CompanyModel[] }> {
-    const data = await this.model.find({ relations: { partners: true } });
+    const data = await this.model.find();
     return { data };
   }
 

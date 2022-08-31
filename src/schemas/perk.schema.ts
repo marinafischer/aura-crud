@@ -35,11 +35,11 @@ export class PerkSchema {
   expirationDate: Date;
 
   @IsNumber()
-  companyId: number;
+  company: number;
 
   @IsNumber()
-  collectionId: number;
+  collection: number;
 
   @IsNumber()
-  categoryId: number;
+  category: number;
 }

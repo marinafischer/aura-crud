@@ -39,11 +39,11 @@ export class PerkModel {
   createdAt: Date;
 
   @ManyToOne(() => Company, (company) => company.perks)
-  companyId: Company['id'];
+  company: Company['id'];
 
   @ManyToOne(() => Category, (category) => category.perks)
-  categoryId: Category['id'];
+  category: Category['id'];
 
   @ManyToOne(() => Collection, (collection) => collection.perks)
-  collectionId: Collection['id'];
+  collection: Collection['id'];
 }

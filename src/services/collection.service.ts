@@ -21,9 +21,8 @@ export class CollectionService {
   public async get(): Promise<{ data: CollectionModel[] }> {
     const data = await this.model.find({
       relations: {
-        companyId: true,
+        company: true,
         perks: true,
-        partners: true,
       },
     });
     return { data };
@@ -33,7 +32,7 @@ export class CollectionService {
     const data = await this.model.findOne({
       where: { id },
       relations: {
-        companyId: true,
+        company: true,
         perks: true,
       },
     });

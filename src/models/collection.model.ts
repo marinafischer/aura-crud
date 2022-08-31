@@ -39,14 +39,14 @@ export class CollectionModel {
   updatedAt: Date;
 
   @ManyToOne(() => Company, (company) => company.collections)
-  companyId: Company['id'];
+  company: Company['id'];
 
-  @OneToMany(() => Perk, (perk) => perk.collectionId, { cascade: true })
+  @OneToMany(() => Perk, (perk) => perk.collection, { cascade: true })
   perks: Perk[];
 
-  @ManyToMany(() => Company, (company) => company.partners, {
-    cascade: true,
-  })
-  @JoinTable()
-  partners: Company[];
+  // @ManyToMany(() => Company, (company) => company.partners, {
+  //   cascade: true,
+  // })
+  // @JoinTable()
+  // partners: Company[];
 }
