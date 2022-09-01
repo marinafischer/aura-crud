@@ -4,10 +4,12 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { CompanyModel as Company } from './company.model';
 import { CategoryModel as Category } from './category.model';
 import { CollectionModel as Collection } from './collection.model';
+import { ValidationModel as Validation } from './validation.model';
 
 @Entity()
 export class PerkModel {
@@ -46,4 +48,9 @@ export class PerkModel {
 
   @ManyToOne(() => Collection, (collection) => collection.perks)
   collection: Collection['id'];
+
+  @OneToMany(() => Validation, (validation) => validation.perk, {
+    cascade: true,
+  })
+  validations: Validation[];
 }
