@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { CollectionModel as Collection } from './collection.model';
 import { PerkModel as Perk } from './perk.model';
+import { ValidationModel as Validation } from './validation.model';
 
 @Entity()
 export class CompanyModel {
@@ -54,6 +55,11 @@ export class CompanyModel {
   @OneToMany(() => Perk, (perk) => perk.company, { cascade: true })
   perks: Perk[];
 
-  // @ManyToMany(() => Collection, (Collection) => Collection.partners)
-  // partners: Collection[];
+  @OneToMany(() => Validation, (validation) => validation.company, {
+    cascade: true,
+  })
+  validations: Validation[];
+
+  @ManyToMany(() => Collection)
+  partners: Collection[];
 }

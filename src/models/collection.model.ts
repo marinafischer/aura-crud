@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { CompanyModel as Company } from './company.model';
 import { PerkModel as Perk } from './perk.model';
+import { ValidationModel as Validation } from './validation.model';
 
 @Entity()
 export class CollectionModel {
@@ -44,7 +45,14 @@ export class CollectionModel {
   @OneToMany(() => Perk, (perk) => perk.collection, { cascade: true })
   perks: Perk[];
 
-  @ManyToMany(() => Company)
+  @OneToMany(() => Validation, (validation) => validation.collection, {
+    cascade: true,
+  })
+  validations: Validation[];
+
+  @ManyToMany(() => Company, (company) => company.partners, {
+    cascade: true,
+  })
   @JoinTable()
-  companies: Company[];
+  partners: Company[];
 }

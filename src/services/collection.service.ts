@@ -23,7 +23,7 @@ export class CollectionService {
       relations: {
         company: true,
         perks: true,
-        companies: true,
+        partners: true,
       },
     });
     return { data };
@@ -35,7 +35,7 @@ export class CollectionService {
       relations: {
         company: true,
         perks: true,
-        companies: true,
+        partners: true,
       },
     });
     if (!data) throw new NotFoundException('O id informado não existe');
