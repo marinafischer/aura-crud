@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ValidationModel } from 'src/models/validation.model';
-// import { ValidationSchema } from 'src/schemas/validation.schema';
+import { ValidationSchema } from 'src/schemas/validation.schema';
 import { ValidationService } from 'src/services/validation.service';
 
 @Controller('/validation')
@@ -17,7 +17,7 @@ export class ValidationController {
   constructor(private service: ValidationService) {}
 
   @Post()
-  public async create(@Body() body: any): Promise<{ data: any }> {
+  public async create(@Body() body: ValidationSchema): Promise<{ data: any }> {
     const data = await this.service.create(body);
     return data;
   }
@@ -39,7 +39,7 @@ export class ValidationController {
   @Put(':id')
   public async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: any,
+    @Body() body: ValidationSchema,
   ): Promise<{ data: any }> {
     const data = await this.service.update(id, body);
     return data;

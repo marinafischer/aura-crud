@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ValidationModel } from 'src/models/validation.model';
 import getCode from 'src/common/helpers/getCode';
-// import { ValidationSchema } from 'src/schemas/validation.schema';
+import { ValidationSchema } from 'src/schemas/validation.schema';
 
 @Injectable()
 export class ValidationService {
@@ -12,9 +12,9 @@ export class ValidationService {
     private model: Repository<ValidationModel>,
   ) {}
 
-  public async create(body: any): Promise<{ data: any }> {
+  public async create(body: ValidationSchema): Promise<{ data: any }> {
     const code = getCode();
-    const data = await this.model.save({ ...body, code });
+    const data = await this.model.save({ ...body, code, status: 0 });
     return { data };
   }
 
@@ -33,7 +33,10 @@ export class ValidationService {
     return { data };
   }
 
-  public async update(id: number, body: any): Promise<{ data: any }> {
+  public async update(
+    id: number,
+    body: ValidationSchema,
+  ): Promise<{ data: any }> {
     await this.model.update(id, body);
     return { data: { id, ...body } };
   }
