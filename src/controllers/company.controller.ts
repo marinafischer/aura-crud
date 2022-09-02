@@ -7,14 +7,16 @@ import {
   Put,
   ParseIntPipe,
   Body,
+  UseGuards,
 } from '@nestjs/common';
 import { CompanyModel } from 'src/models/company.model';
+import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
 import { CompanySchema } from 'src/schemas/company.schema';
 import { CompanyService } from 'src/services/company.service';
 
 @Controller('/company')
 export class CompanyController {
-  constructor(private service: CompanyService) {}
+  constructor(private service: CompanyService) { }
 
   @Post()
   public async create(
@@ -25,6 +27,8 @@ export class CompanyController {
   }
 
   @Get()
+  // usando o autenticação do firebase em um metodo especifico, pode usar em toda controller
+  // @UseGuards(FirebaseAuthGuard)
   public async get(): Promise<{ data: CompanyModel[] }> {
     const data = await this.service.get();
     return data;

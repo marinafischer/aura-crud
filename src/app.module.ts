@@ -11,6 +11,8 @@ import { CollectionModule } from './modules/collection.module';
 import { PerkModule } from './modules/perk.module';
 import { ValidationModule } from './modules/validation.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { FirebaseAuthStrategy } from './firebase/firebase-auth.strategy';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -25,6 +27,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
       entities: ['dist/**/*.model.js'],
     }),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: FirebaseAuthStrategy,
+    },
   ],
 })
 // implementação para uso do middleware

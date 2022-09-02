@@ -1,7 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard';
+
 // arquivo raiz, todas as configuração do nest devem ser feitas nesse arquivo
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +15,7 @@ async function bootstrap() {
   // configurações do OPENAPI
   // http://localhost:3000/api
   // http://localhost:3000/api-json
+  app.useGlobalGuards(new FirebaseAuthGuard(new Reflector()));
   const config = new DocumentBuilder()
     .setTitle('First Crud')
     .setDescription('First API using nest')
